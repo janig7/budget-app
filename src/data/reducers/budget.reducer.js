@@ -4,6 +4,9 @@ import {
   BUDGET_GET_FAILURE,
   BUDGET_GET_SUCCESS,
   BUDGET_GET_REQUEST,
+  BUDGETED_CATEGOIES_GET_REQUEST,
+  BUDGETED_CATEGOIES_GET_SUCCESS,
+  BUDGETED_CATEGOIES_GET_FAILURE,
 } from 'data/constants';
 
 const initialState = {
@@ -32,10 +35,33 @@ const budget = (state = initialState, action) => {
         loadingState: newLoadingState,
       };
     case BUDGET_GET_FAILURE:
-      delete newLoadingState.BUDGET_GET_REQUEST;
+      delete newLoadingState.BUDGETED_CATEGOIES_GET_REQUEST;
       return {
         ...state,
         budget: {},
+        loadingState: newLoadingState,
+      };
+
+    case BUDGETED_CATEGOIES_GET_REQUEST:
+      return {
+        ...state,
+        loadingState: {
+          ...state.loadingState,
+          [action.type]: LOADING_STATES.LOADING,
+        },
+      };
+    case BUDGETED_CATEGOIES_GET_SUCCESS:
+      delete newLoadingState.BUDGETED_CATEGOIES_GET_REQUEST;
+      return {
+        ...state,
+        budgetedCategories: action.payload,
+        loadingState: newLoadingState,
+      };
+    case BUDGETED_CATEGOIES_GET_FAILURE:
+      delete newLoadingState.BUDGETED_CATEGOIES_GET_REQUEST;
+      return {
+        ...state,
+        budgetedCategories: {},
         loadingState: newLoadingState,
       };
     default:
